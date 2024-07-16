@@ -6,13 +6,13 @@ import BlogCard from '../../Components/BlogCard';
 
 const Home = () => {
   const trendingBlogs = [
-    { title: 'Blog 1', author: { first_name: 'Author', last_name: 'One' }, date_uploaded: '2023-07-07T12:00:00Z', thumbnail: 'image1.jpg', upvotes: 120, view_count: 300, id: 1 },
-    { title: 'Blog 2', author: { first_name: 'Author', last_name: 'Two' }, date_uploaded: '2023-07-07T12:00:00Z', thumbnail: 'image2.jpg', upvotes: 90, view_count: 200, id: 2 },
+    { title: 'Blog 1', author: { first_name: 'Author', last_name: 'One' }, date_uploaded: '2023-07-07T12:00:00Z', thumbnail: 'image1.jpg', upvotes: 120, downvotes: 10, view_count: 300, id: 1 },
+    { title: 'Blog 2', author: { first_name: 'Author', last_name: 'Two' }, date_uploaded: '2023-07-07T12:00:00Z', thumbnail: 'image2.jpg', upvotes: 90, downvotes: 5, view_count: 200, id: 2 },
   ];
 
   const topRatedBlogs = [
-    { title: 'Blog 3', author: { first_name: 'Author', last_name: 'Three' }, date_uploaded: '2023-07-07T12:00:00Z', thumbnail: 'image3.jpg', upvotes: 150, view_count: 350, id: 3 },
-    { title: 'Blog 4', author: { first_name: 'Author', last_name: 'Four' }, date_uploaded: '2023-07-07T12:00:00Z', thumbnail: 'image4.jpg', upvotes: 130, view_count: 250, id: 4 },
+    { title: 'Blog 3', author: { first_name: 'Author', last_name: 'Three' }, date_uploaded: '2023-07-07T12:00:00Z', thumbnail: 'image3.jpg', upvotes: 150, downvotes: 8, view_count: 350, id: 3 },
+    { title: 'Blog 4', author: { first_name: 'Author', last_name: 'Four' }, date_uploaded: '2023-07-07T12:00:00Z', thumbnail: 'image4.jpg', upvotes: 130, downvotes: 6, view_count: 250, id: 4 },
   ];
 
   const handleBlogClick = (id) => {

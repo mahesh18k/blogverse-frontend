@@ -1,64 +1,76 @@
-// src/pages/BlogDetailsPage.js
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+// src/pages/BlogDetailsPage.jsx
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 const BlogDetailsPage = () => {
-    const { id } = useParams();
-    const [content, setContent] = useState('');
+  const { id } = useParams();
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const [blog, setBlog] = useState({
-        // Sample data
-        id: 1,
-        title: 'Blog 1',
-        rating: 4.5,
-        upvotes: 120,
-        downvotes: 10,
-        views: 100,
-        author: 'Author 1',
-        content: 'This is the full content of the blog.',
-        image: 'image1.jpg',
-    });
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/blog/${id}`);
+        setBlog(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching blog:', error);
+        setLoading(false);
+      }
+    };
 
-    // In a real app, you would fetch the blog details using the id
+    fetchBlog();
+  }, [id]);
 
-    useEffect(() => {
-        // Fetch blog details including content_id
-        axios.get(`/api/blogs/${id}`)
-            .then(response => {
-                setBlog(response.data);
-                return axios.get(`/api/contents/${response.data.content_id}`);
-            })
-            .then(response => {
-                // Sanitize the content before setting it in state
-                const sanitizedContent = DOMPurify.sanitize(response.data.content);
-                setContent(sanitizedContent);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the blog data!", error);
-            });
-    }, [id]);
-
-    if (!blog) return <div>Loading...</div>;
-
+  if (loading) {
     return (
-        <Container className="mt-5">
-            <Row>
-                <Col>
-                    <h1>{blog.title}</h1>
-                    <p>by {blog.author}</p>
-                    {/* <img src={blog.image} alt={blog.title} style={{ width: '100%' }} />
-                    <p>{blog.content}</p> */}
-                    <div dangerouslySetInnerHTML={{ __html: content }} />
-                    <p>Upvotes: {blog.upvotes} | Downvotes: {blog.downvotes}</p>
-                    <p>Views: {blog.views}</p>
-                    <Button variant="primary" onClick={() => window.history.back()}>Back</Button>
-                </Col>
-            </Row>
-        </Container>
+      <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      </Container>
     );
+  }
+
+  if (!blog) {
+    return <Container className="text-center">Blog not found</Container>;
+  }
+
+  const renderContent = () => {
+    const contentParts = blog.content_id.content.split('[IMAGE]');
+    return contentParts.map((part, index) => (
+      <React.Fragment key={index}>
+        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(part) }} />
+        {index < blog.images.length && (
+          <div className="mt-4 text-center">
+            <img width={'700px'} height={'400px'} src={blog.images[index]} alt={`Blog ${index + 1}`} />
+          </div>
+        )}
+      </React.Fragment>
+    ));
+  };
+
+  return (
+    <Container className="mt-5">
+      <h1>{blog.title}</h1>
+      <p>By {blog.author.first_name} {blog.author.last_name}</p>
+      <p>Uploaded on {new Date(blog.date_uploaded).toLocaleDateString()}</p>
+      <Row>
+        <Col>
+          <div>Upvotes: {blog.upvotes}</div>
+        </Col>
+        <Col>
+          <div>Downvotes: {blog.downvotes}</div>
+        </Col>
+      </Row>
+      <div className="mt-4">
+        {renderContent()}
+      </div>
+    </Container>
+  );
 };
 
 export default BlogDetailsPage;

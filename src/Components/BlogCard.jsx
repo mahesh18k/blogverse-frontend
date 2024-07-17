@@ -11,7 +11,7 @@ const BlogCard = ({ title, author, date_uploaded, thumbnail, upvotes, downvotes,
 
         <Card.Text>
           <div>Author: {author.first_name} {author.last_name}</div>
-          <div>Uploaded: {new Date(date_uploaded).toLocaleDateString()}</div>
+          <div>Uploaded: {new Date(date_uploaded).toLocaleDateString('en-IN')}</div>
         <Row>
           <Col>
             <div>Upvotes: {upvotes}</div>

@@ -57,7 +57,7 @@ const BlogDetailsPage = () => {
     <Container className="mt-5">
       <h1>{blog.title}</h1>
       <p>By {blog.author.first_name} {blog.author.last_name}</p>
-      <p>Uploaded on {new Date(blog.date_uploaded).toLocaleDateString()}</p>
+      <p>Uploaded on {new Date(blog.date_uploaded).toLocaleDateString('en-IN')}</p>
       <Row>
         <Col>
           <div>Upvotes: {blog.upvotes}</div>

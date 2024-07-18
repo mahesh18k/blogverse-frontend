@@ -56,7 +56,7 @@ function Login() {
                 const data = await response.json();
                 localStorage.setItem('userId', data.userId); // Save the user ID in local storage
                 setUserId(data.userId); // Update the context state
-                navigate('/tasks'); // Redirect to /tasks page
+                navigate('/'); // Redirects to home page
             } else {
                 console.error('Login failed');
                 setInvalidInput(true);

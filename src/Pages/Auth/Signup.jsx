@@ -78,7 +78,7 @@ function Signup() {
                 const userId = response.data.userId;
                 localStorage.setItem('userId', userId); // Store userId in local storage
                 setUserId(userId); // Update context
-                navigate('/tasks');
+                navigate('/');
             } else {
                 console.error('Signup failed');
             }

@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     // Fetch blogs from the backend
-    axios.get('http://localhost:3001/blog')
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog`)
       .then(response => {
         const blogs = response.data;
   

@@ -1,0 +1,21 @@
+.profile-icon {
+    cursor: pointer;
+    font-size: 3rem;
+}
+
+.profile-popover {
+    width: 300px;
+}
+
+.profile-popover .popover-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-popover .btn-danger {
+    margin-top: 10px;
+}
+
+.popover-body-text {
+    font-size: 18px;
+}

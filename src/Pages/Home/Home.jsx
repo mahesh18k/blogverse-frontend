@@ -113,7 +113,7 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <h1>Welcome to Our Blog</h1>
+          <h1>Welcome to BlogVerse</h1>
           <p>Discover the latest articles, trends, and insights.</p>
         </motion.div>
         <Form className="justify-content-center mt-4">

@@ -3,6 +3,7 @@ import { Container, Form, Button, Modal } from 'react-bootstrap';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
+import NavigationBar from '../../Components/NavigationBar';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
@@ -37,7 +38,7 @@ const CreateBlog = () => {
     };
 
     try {
-      await axios.post('http://localhost:3001/blog', blogData);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog`, blogData);
       alert('Blog created successfully!');
     } catch (error) {
       console.error('Error creating blog:', error);
@@ -65,7 +66,8 @@ const CreateBlog = () => {
 
   return (
     <Container className="mt-5">
-      <h1>Create a New Blog</h1>
+      <NavigationBar />
+      <h1 className='py-4'>Create a New Blog</h1>
       <Form>
         <Form.Group className="mb-3">
           <Form.Label>Title <span style={{color: 'red'}}>*</span></Form.Label>
@@ -101,11 +103,11 @@ const CreateBlog = () => {
           <Form.Label>Content <span style={{color: 'red'}}>*</span></Form.Label>
           <ReactQuill value={content} onChange={setContent} modules={modules} formats={formats} />
         </Form.Group>
-        <Button variant="primary" onClick={handleShow}>
-          Add Image
+        <Button variant="primary" className="mt-3 mx-2" onClick={handleShow}>
+        Add Image
         </Button>
-        <Button variant="success" className="mt-3" onClick={handleSubmit}>
-          Create Blog
+        <Button variant="success" className="mt-3 mx-2" onClick={handleSubmit}>
+        Create Blog
         </Button>
       </Form>
 

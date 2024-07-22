@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Modal } from 'react-bootstrap';
-import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
+import 'react-quill/dist/quill.snow.css';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
@@ -37,47 +37,69 @@ const CreateBlog = () => {
     };
 
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog`, blogData);
+      await axios.post('http://localhost:3001/blog', blogData);
       alert('Blog created successfully!');
     } catch (error) {
       console.error('Error creating blog:', error);
     }
   };
 
+  const modules = {
+    toolbar: [
+      [{ 'font': [] }, { 'size': [] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      ['link', 'image'],
+      [{ 'align': [] }],
+      ['clean']
+    ]
+  };
+
+  const formats = [
+    'font', 'size',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'align'
+  ];
+
   return (
     <Container className="mt-5">
       <h1>Create a New Blog</h1>
       <Form>
         <Form.Group className="mb-3">
-          <Form.Label>Title</Form.Label>
+          <Form.Label>Title <span style={{color: 'red'}}>*</span></Form.Label>
           <Form.Control
             type="text"
             value={title}
             onChange={e => setTitle(e.target.value)}
             placeholder="Enter the blog title"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Topic Tags (comma separated)</Form.Label>
+          <Form.Label>Topic Tags (comma separated) <span style={{color: 'red'}}>*</span></Form.Label>
           <Form.Control
             type="text"
             value={topicTags}
             onChange={e => setTopicTags(e.target.value)}
             placeholder="e.g. Artificial Intelligence, Technology, Innovation"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Thumbnail URL</Form.Label>
+          <Form.Label>Thumbnail URL <span style={{color: 'red'}}>*</span></Form.Label>
           <Form.Control
             type="text"
             value={thumbnail}
             onChange={e => setThumbnail(e.target.value)}
             placeholder="Enter the thumbnail URL"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Content</Form.Label>
-          <ReactQuill value={content} onChange={setContent} />
+          <Form.Label>Content <span style={{color: 'red'}}>*</span></Form.Label>
+          <ReactQuill value={content} onChange={setContent} modules={modules} formats={formats} />
         </Form.Group>
         <Button variant="primary" onClick={handleShow}>
           Add Image

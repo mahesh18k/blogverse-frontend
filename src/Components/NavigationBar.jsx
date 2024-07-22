@@ -45,7 +45,7 @@ const NavigationBar = () => {
           <Nav className="ms-auto">
             {isLoggedIn ? (
               <>
-                <Nav.Link href="/create-blog">Create a Blog</Nav.Link>
+                <Nav.Link href="/createblog">Create a Blog</Nav.Link>
                 <OverlayTrigger trigger="click" placement="bottom" overlay={profilePopover} rootClose>
                   <Button variant="link" style={{ color: 'white', padding: 0, marginLeft: '10px' }}>
                     <FontAwesomeIcon icon={faUserCircle} size="2x" />

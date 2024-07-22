@@ -6,6 +6,7 @@ import Signup from './Pages/Auth/Signup';
 import './App.css';
 import BlogListPage from './Pages/Blog/BlogListPage';
 import BlogDetailsPage from './Pages/Blog/BlogDetailsPage';
+import CreateBlog from './Pages/Blog/CreateBlog';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/blog" element={<BlogListPage />} />
         <Route path="/blog/:id" element={<BlogDetailsPage />} />
+        <Route path="/createblog" element={<CreateBlog />} />
       </Routes>
     </BrowserRouter>
   );

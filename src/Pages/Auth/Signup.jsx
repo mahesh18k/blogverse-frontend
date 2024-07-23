@@ -77,6 +77,9 @@ function Signup() {
             if (response.status === 201) {
                 const userId = response.data.userId;
                 localStorage.setItem('userId', userId); // Store userId in local storage
+                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
+                    user_id: userId
+                });
                 setUserId(userId); // Update context
                 navigate('/');
             } else {

@@ -7,6 +7,7 @@ import './App.css';
 import BlogListPage from './Pages/Blog/BlogListPage';
 import BlogDetailsPage from './Pages/Blog/BlogDetailsPage';
 import CreateBlog from './Pages/Blog/CreateBlog';
+import Profile from './Pages/Profile/Profile';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/blog" element={<BlogListPage />} />
         <Route path="/blog/:id" element={<BlogDetailsPage />} />
         <Route path="/createblog" element={<CreateBlog />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

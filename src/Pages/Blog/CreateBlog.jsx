@@ -38,8 +38,14 @@ const CreateBlog = () => {
     };
 
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog`, blogData);
-      alert('Blog created successfully!');
+      const blogResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog`, blogData);
+      const blogId = blogResponse.data.blogId;
+
+      await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/profile/stats/${localStorage.getItem('userId')}`, {
+        blogId: blogId
+      });
+
+      alert('Blog created successfully and profile updated!');
     } catch (error) {
       console.error('Error creating blog:', error);
     }
@@ -49,8 +55,8 @@ const CreateBlog = () => {
     toolbar: [
       [{ 'font': [] }, { 'size': [] }],
       ['bold', 'italic', 'underline', 'strike'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
       ['link', 'image'],
       [{ 'align': [] }],
       ['clean']
@@ -70,7 +76,7 @@ const CreateBlog = () => {
       <h1 className='py-4'>Create a New Blog</h1>
       <Form>
         <Form.Group className="mb-3">
-          <Form.Label>Title <span style={{color: 'red'}}>*</span></Form.Label>
+          <Form.Label>Title <span style={{ color: 'red' }}>*</span></Form.Label>
           <Form.Control
             type="text"
             value={title}
@@ -80,7 +86,7 @@ const CreateBlog = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Topic Tags (comma separated) <span style={{color: 'red'}}>*</span></Form.Label>
+          <Form.Label>Topic Tags (comma separated) <span style={{ color: 'red' }}>*</span></Form.Label>
           <Form.Control
             type="text"
             value={topicTags}
@@ -90,7 +96,7 @@ const CreateBlog = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Thumbnail URL <span style={{color: 'red'}}>*</span></Form.Label>
+          <Form.Label>Thumbnail URL <span style={{ color: 'red' }}>*</span></Form.Label>
           <Form.Control
             type="text"
             value={thumbnail}
@@ -100,14 +106,14 @@ const CreateBlog = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Content <span style={{color: 'red'}}>*</span></Form.Label>
+          <Form.Label>Content <span style={{ color: 'red' }}>*</span></Form.Label>
           <ReactQuill value={content} onChange={setContent} modules={modules} formats={formats} />
         </Form.Group>
         <Button variant="primary" className="mt-3 mx-2" onClick={handleShow}>
-        Add Image
+          Add Image
         </Button>
         <Button variant="success" className="mt-3 mx-2" onClick={handleSubmit}>
-        Create Blog
+          Create Blog
         </Button>
       </Form>
 

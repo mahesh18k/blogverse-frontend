@@ -43,6 +43,7 @@ const NavigationBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
+            <Nav.Link href="/blog">All Blogs</Nav.Link>
             {isLoggedIn ? (
               <>
                 <Nav.Link href="/createblog">Create a Blog</Nav.Link>

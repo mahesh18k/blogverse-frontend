@@ -12,6 +12,7 @@ const Profile = () => {
     const fetchProfileData = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/profile/${userId}`);
+        console.log(response);
         setProfileData(response.data);
       } catch (error) {
         console.error('Error fetching profile data:', error);
@@ -20,7 +21,7 @@ const Profile = () => {
 
     const fetchUserBlogs = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/blog/user/${userId}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog/userblogs/${userId}`);
         setUserBlogs(response.data);
       } catch (error) {
         console.error('Error fetching user blogs:', error);

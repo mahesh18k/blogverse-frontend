@@ -1,9 +1,11 @@
 // src/pages/BlogDetailsPage.jsx
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
@@ -24,6 +26,26 @@ const BlogDetailsPage = () => {
 
     fetchBlog();
   }, [id]);
+
+
+  const handleUpvote = async () => {
+    try {
+      await axios.post(`http://localhost:3001/blog/${id}/upvote`);
+      setBlog(prevBlog => ({ ...prevBlog, upvotes: prevBlog.upvotes + 1 }));
+    } catch (error) {
+      console.error('Error upvoting blog:', error);
+    }
+  };
+
+  const handleDownvote = async () => {
+    try {
+      await axios.post(`http://localhost:3001/blog/${id}/downvote`);
+      setBlog(prevBlog => ({ ...prevBlog, downvotes: prevBlog.downvotes + 1 }));
+    } catch (error) {
+      console.error('Error downvoting blog:', error);
+    }
+  };
+
 
   if (loading) {
     return (
@@ -58,15 +80,32 @@ const BlogDetailsPage = () => {
       <p>Uploaded on {new Date(blog.date_uploaded).toLocaleDateString('en-IN')}</p>
       <Row>
         <Col>
+          <div>Views: {blog.views}</div>
+        </Col>
+        <Col>
           <div>Upvotes: {blog.upvotes}</div>
         </Col>
         <Col>
           <div>Downvotes: {blog.downvotes}</div>
         </Col>
       </Row>
+      
       <div className="mt-4">
         {renderContent()}
       </div>
+
+      <Row className="my-4">
+        <Col>
+          <Button variant="success" onClick={handleUpvote}>
+            <FontAwesomeIcon icon={faArrowUp} /> Upvote
+          </Button>
+        </Col>
+        <Col>
+          <Button variant="danger" onClick={handleDownvote}>
+            <FontAwesomeIcon icon={faArrowDown} /> Downvote
+          </Button>
+        </Col>
+      </Row>
     </Container>
   );
 };

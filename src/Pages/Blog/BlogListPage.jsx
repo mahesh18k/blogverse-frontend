@@ -29,7 +29,7 @@ const BlogListPage = () => {
 
   const sortedBlogs = blogs.sort((a, b) => {
     if (sortOption === 'upvotes') return b.upvotes - a.upvotes;
-    if (sortOption === 'views') return b.view_count - a.view_count;
+    if (sortOption === 'views') return b.views - a.views;
     if (sortOption === 'date') return new Date(b.date_uploaded) - new Date(a.date_uploaded);
     return 0;
   });

@@ -14,6 +14,8 @@ const BlogCard = ({ title, author, date_uploaded, thumbnail, upvotes, downvotes,
             <div>Uploaded: {new Date(date_uploaded).toLocaleDateString('en-IN')}</div>
           </Card.Text>
 
+          <div>Views: {views}</div>
+
           <Row>
             <Col>
               <div>Upvotes: {upvotes}</div>
@@ -22,9 +24,8 @@ const BlogCard = ({ title, author, date_uploaded, thumbnail, upvotes, downvotes,
               <div>Downvotes: {downvotes}</div>
             </Col>
           </Row>
-          <div>Views: {views}</div>
 
-          <Button variant="primary">Read More</Button>
+          <Button variant="primary" className="mt-2">Read More</Button>
         </Card.Body>
       </Card>
     </>

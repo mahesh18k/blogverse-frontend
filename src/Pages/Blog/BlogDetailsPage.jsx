@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
@@ -80,16 +80,16 @@ const BlogDetailsPage = () => {
       <p>Uploaded on {new Date(blog.date_uploaded).toLocaleDateString('en-IN')}</p>
       <Row>
         <Col>
-          <div>Views: {blog.views}</div>
+          <div> <FontAwesomeIcon icon={faEye} /> Views: {blog.views}</div>
         </Col>
         <Col>
-          <div>Upvotes: {blog.upvotes}</div>
+          <div> <FontAwesomeIcon icon={faArrowUp} /> Upvotes: {blog.upvotes}</div>
         </Col>
         <Col>
-          <div>Downvotes: {blog.downvotes}</div>
+          <div> <FontAwesomeIcon icon={faArrowDown} /> Downvotes: {blog.downvotes}</div>
         </Col>
       </Row>
-      
+
       <div className="mt-4">
         {renderContent()}
       </div>

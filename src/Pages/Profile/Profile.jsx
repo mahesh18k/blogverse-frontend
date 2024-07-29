@@ -66,7 +66,7 @@ const Profile = () => {
                   thumbnail={blog.thumbnail}
                   upvotes={blog.upvotes}
                   downvotes={blog.downvotes}
-                  view_count={blog.view_count}
+                  views={blog.views}
                   onClick={() => console.log(`Navigate to blog ${blog._id}`)}
                 />
               </Col>

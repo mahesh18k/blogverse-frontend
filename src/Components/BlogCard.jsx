@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 
-const BlogCard = ({ title, author, date_uploaded, thumbnail, upvotes, downvotes, view_count, onClick }) => {
+const BlogCard = ({ title, author, date_uploaded, thumbnail, upvotes, downvotes, views, onClick }) => {
   return (
     <>
       <Card style={{ width: '18rem', margin: '1rem' }} onClick={onClick}>
@@ -22,7 +22,7 @@ const BlogCard = ({ title, author, date_uploaded, thumbnail, upvotes, downvotes,
               <div>Downvotes: {downvotes}</div>
             </Col>
           </Row>
-          <div>Views: {view_count}</div>
+          <div>Views: {views}</div>
 
           <Button variant="primary">Read More</Button>
         </Card.Body>

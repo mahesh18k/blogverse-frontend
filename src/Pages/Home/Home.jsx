@@ -7,6 +7,69 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import './Home.css';
 
+// CarouselWithControls Component
+const CarouselWithControls = React.memo(({ items, title }) => {
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+
+  const next = () => {
+    setIndex((prevIndex) => (prevIndex + 3) % items.length);
+  };
+
+  const prev = () => {
+    setIndex((prevIndex) => (prevIndex - 3 + items.length) % items.length);
+  };
+
+  return (
+    <>
+      <h1 className="mt-5">{title}</h1>
+      <div className="position-relative">
+        <Carousel activeIndex={index} onSelect={handleSelect} controls={false} indicators={false}>
+          {items.map((blog, idx) => (
+            <Carousel.Item key={blog._id} interval={3000}>
+              <Row>
+                {[0, 1, 2].map((offset) => {
+                  const blogIndex = (idx + offset) % items.length;
+                  return (
+                    <Col key={blogIndex}>
+                      <motion.div
+                        initial={{ opacity: 0, x: -100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                      >
+                        <BlogCard {...items[blogIndex]} onClick={() => window.location.href = `/blog/${items[blogIndex]._id}`} />
+                      </motion.div>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Carousel.Item>
+          ))}
+        </Carousel>
+        <Button
+          variant="light"
+          className="position-absolute top-50 start-0 translate-middle-y"
+          onClick={prev}
+          style={{ zIndex: 1 }}
+        >
+          <ChevronLeft />
+        </Button>
+        <Button
+          variant="light"
+          className="position-absolute top-50 end-0 translate-middle-y"
+          onClick={next}
+          style={{ zIndex: 1 }}
+        >
+          <ChevronRight />
+        </Button>
+      </div>
+    </>
+  );
+});
+
 const Home = () => {
   const [trendingBlogs, setTrendingBlogs] = useState([]);
   const [topRatedBlogs, setTopRatedBlogs] = useState([]);
@@ -52,10 +115,6 @@ const Home = () => {
     }
   };
 
-  const handleBlogClick = (id) => {
-    window.location.href = `/blog/${id}`;
-  };
-
   const renderSearchResults = () => {
     if (filteredBlogs.length === 0) {
       return null;
@@ -63,75 +122,26 @@ const Home = () => {
 
     return (
       <div className="search-results-dropdown">
-        {filteredBlogs.map(blog => (
+        {filteredBlogs.slice(0, 6).map(blog => (
           <div key={blog._id} className="search-result-item" onClick={() => handleBlogClick(blog._id)}>
             {blog.title}
           </div>
         ))}
+        {filteredBlogs.length > 6 && (
+          <div className="search-results-scrollable">
+            {filteredBlogs.slice(6).map(blog => (
+              <div key={blog._id} className="search-result-item" onClick={() => handleBlogClick(blog._id)}>
+                {blog.title}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   };
 
-  const CarouselWithControls = ({ items, title }) => {
-    const [index, setIndex] = useState(0);
-
-    const handleSelect = (selectedIndex, e) => {
-      setIndex(selectedIndex);
-    };
-
-    const next = () => {
-      setIndex((prevIndex) => (prevIndex + 3) % items.length);
-    };
-
-    const prev = () => {
-      setIndex((prevIndex) => (prevIndex - 3 + items.length) % items.length);
-    };
-
-    return (
-      <>
-        <h1 className="mt-5">{title}</h1>
-        <div className="position-relative">
-          <Carousel activeIndex={index} onSelect={handleSelect} controls={false} indicators={false}>
-            {items.map((blog, idx) => (
-              <Carousel.Item key={blog._id} interval={3000}>
-                <Row>
-                  {[0, 1, 2].map((offset) => {
-                    const blogIndex = (idx + offset) % items.length;
-                    return (
-                      <Col key={blogIndex}>
-                        <motion.div
-                          initial={{ opacity: 0, x: -100 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.8 }}
-                        >
-                          <BlogCard {...items[blogIndex]} onClick={() => handleBlogClick(items[blogIndex]._id)} />
-                        </motion.div>
-                      </Col>
-                    );
-                  })}
-                </Row>
-              </Carousel.Item>
-            ))}
-          </Carousel>
-          <Button
-            variant="light"
-            className="position-absolute top-50 start-0 translate-middle-y"
-            onClick={prev}
-            style={{ zIndex: 1 }}
-          >
-            <ChevronLeft />
-          </Button>
-          <Button
-            variant="light"
-            className="position-absolute top-50 end-0 translate-middle-y"
-            onClick={next}
-            style={{ zIndex: 1 }}
-          >
-            <ChevronRight />
-          </Button>
-        </div>
-      </>
-    );
+  const handleBlogClick = (id) => {
+    window.location.href = `/blog/${id}`;
   };
 
   return (

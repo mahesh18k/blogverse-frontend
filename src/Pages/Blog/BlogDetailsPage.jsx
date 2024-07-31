@@ -1,11 +1,11 @@
-// src/pages/BlogDetailsPage.jsx
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import DOMPurify from 'dompurify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from 'react-router-dom';
+import DOMPurify from 'dompurify';
+import axios from 'axios';
+
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
@@ -15,7 +15,7 @@ const BlogDetailsPage = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/blog/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog/${id}`);
         setBlog(response.data);
         setLoading(false);
       } catch (error) {
@@ -30,7 +30,7 @@ const BlogDetailsPage = () => {
 
   const handleUpvote = async () => {
     try {
-      await axios.post(`http://localhost:3001/blog/${id}/upvote`);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog/${id}/upvote`);
       setBlog(prevBlog => ({ ...prevBlog, upvotes: prevBlog.upvotes + 1 }));
     } catch (error) {
       console.error('Error upvoting blog:', error);
@@ -39,7 +39,7 @@ const BlogDetailsPage = () => {
 
   const handleDownvote = async () => {
     try {
-      await axios.post(`http://localhost:3001/blog/${id}/downvote`);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog/${id}/downvote`);
       setBlog(prevBlog => ({ ...prevBlog, downvotes: prevBlog.downvotes + 1 }));
     } catch (error) {
       console.error('Error downvoting blog:', error);
@@ -76,9 +76,10 @@ const BlogDetailsPage = () => {
   return (
     <Container className="mt-5">
       <h1>{blog.title}</h1>
-      <p>By {blog.author.first_name} {blog.author.last_name}</p>
-      <p>Uploaded on {new Date(blog.date_uploaded).toLocaleDateString('en-IN')}</p>
-      <Row>
+      <p className="my-1 fs-5">By {blog.author.first_name} {blog.author.last_name}</p>
+      <p className="my-1 fs-5">Uploaded on {new Date(blog.date_uploaded).toLocaleDateString('en-IN')}</p>
+      <p className="my-1 fs-5">Topics: {blog.topic_tags.join(", ")}</p>
+      <Row className="mt-3 pb-4 fs-5">
         <Col>
           <div> <FontAwesomeIcon icon={faEye} /> Views: {blog.views}</div>
         </Col>

@@ -1,4 +1,3 @@
-// src/pages/HomePage.jsx
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Carousel, Form, Button } from 'react-bootstrap';
 import NavigationBar from '../../Components/NavigationBar';
@@ -6,40 +5,71 @@ import BlogCard from '../../Components/BlogCard';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
+import './Home.css';
 
 const Home = () => {
   const [trendingBlogs, setTrendingBlogs] = useState([]);
   const [topRatedBlogs, setTopRatedBlogs] = useState([]);
+  const [allBlogs, setAllBlogs] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   const trendingTopics = ["Technology", "AI"];
 
   useEffect(() => {
-    // Fetch blogs from the backend
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog`)
       .then(response => {
         const blogs = response.data;
-  
-        // Filter trending blogs
+
         const filteredTrendingBlogs = blogs.filter(blog =>
           blog.topic_tags.some(tag => trendingTopics.includes(tag))
         );
-  
-        // Sort top rated blogs by upvotes and get top 10
+
         const sortedTopRatedBlogs = [...blogs]
           .sort((a, b) => b.upvotes - a.upvotes)
           .slice(0, 10);
-  
+
         setTrendingBlogs(filteredTrendingBlogs);
         setTopRatedBlogs(sortedTopRatedBlogs);
+        setAllBlogs(blogs);
       })
       .catch(error => {
         console.error('Error fetching blogs:', error);
       });
   }, []);
-  
+
+  const handleSearchChange = (e) => {
+    const input = e.target.value;
+    setSearchInput(input);
+
+    if (input.trim() !== '') {
+      const filtered = allBlogs.filter(blog =>
+        blog.title.toLowerCase().includes(input.toLowerCase())
+      );
+      setFilteredBlogs(filtered);
+    } else {
+      setFilteredBlogs([]);
+    }
+  };
 
   const handleBlogClick = (id) => {
     window.location.href = `/blog/${id}`;
+  };
+
+  const renderSearchResults = () => {
+    if (filteredBlogs.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="search-results-dropdown">
+        {filteredBlogs.map(blog => (
+          <div key={blog._id} className="search-result-item" onClick={() => handleBlogClick(blog._id)}>
+            {blog.title}
+          </div>
+        ))}
+      </div>
+    );
   };
 
   const CarouselWithControls = ({ items, title }) => {
@@ -116,15 +146,22 @@ const Home = () => {
           <h1>Welcome to BlogVerse</h1>
           <p>Discover the latest articles, trends, and insights.</p>
         </motion.div>
-        <Form className="justify-content-center mt-4">
+        <Form className="justify-content-center mt-4 position-relative">
           <Row className="align-items-center justify-content-center">
-            <Col xs="auto">
+            <Col xs="auto" className="position-relative">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, delay: 0.5 }}
               >
-                <Form.Control type="text" placeholder="Search blogs" className="mr-2" />
+                <Form.Control
+                  type="text"
+                  placeholder="Search blogs"
+                  className="mr-2"
+                  value={searchInput}
+                  onChange={handleSearchChange}
+                />
+                {renderSearchResults()}
               </motion.div>
             </Col>
             <Col xs="auto">

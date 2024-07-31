@@ -1,0 +1,30 @@
+.search-results-dropdown {
+    width: 25rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    z-index: 1000;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 2px;
+    padding: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    background-color: gray;
+}
+
+.search-result-item:hover {
+    background-color: #575757;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}

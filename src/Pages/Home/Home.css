@@ -1,30 +1,77 @@
 .search-results-dropdown {
-    width: 25rem;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background-color: #333;
-    z-index: 1000;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 25rem;
+    background-color: grey;
+    z-index: 1;
+    border-radius: 5px;
     margin-top: 2px;
-    padding: 2px;
+    padding: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    color: white;
+    color: black;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .search-result-item {
     padding: 10px;
     cursor: pointer;
     border-bottom: 1px solid #ddd;
-    background-color: gray;
+    background-color: white;
+    border-radius: 5px;
+    font-size: large;
+    margin-bottom: 3px;
 }
 
 .search-result-item:hover {
-    background-color: #575757;
+    background-color: lightgreen;
 }
 
 .search-result-item:last-child {
     border-bottom: none;
+}
+
+.search-results-dropdown::-webkit-scrollbar {
+    width: 10px;
+}
+
+.search-results-dropdown::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 4px;
+}
+
+.search-results-dropdown::-webkit-scrollbar-track {
+    background-color: #333;
+}
+
+
+
+
+@media (max-width: 500px) {
+    .search-results-dropdown {
+        max-height: 200px;
+    }
+
+    .blog-section {
+        margin-left: 0rem;
+        margin-right: 0rem;
+    }
+
+    .carousel {
+        margin-left: 2rem;
+    }
+}
+
+
+@media (min-width: 500px) {
+    .blog-section {
+        margin-left: 3rem;
+        margin-right: 2rem;
+    }
+
+    .carousel {
+        margin-left: 3rem;
+    }
 }

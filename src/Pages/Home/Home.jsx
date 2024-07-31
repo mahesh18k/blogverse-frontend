@@ -24,12 +24,22 @@ const CarouselWithControls = React.memo(({ items, title }) => {
   };
 
   return (
-    <>
-      <h1 className="mt-5">{title}</h1>
+    <div className="blog-section">
+      <h1 className="mt-5 mx-5">{title}</h1>
+
       <div className="position-relative">
-        <Carousel activeIndex={index} onSelect={handleSelect} controls={false} indicators={false}>
+        <Button
+          variant="light"
+          className="position-absolute top-50 start-0 translate-middle-y"
+          onClick={prev}
+          style={{ zIndex: 1 }}
+        >
+          <ChevronLeft />
+        </Button>
+
+        <Carousel className="carousel" activeIndex={index} onSelect={handleSelect} controls={false} indicators={false}>
           {items.map((blog, idx) => (
-            <Carousel.Item key={blog._id} interval={3000}>
+            <Carousel.Item key={blog._id} interval={10000}>
               <Row>
                 {[0, 1, 2].map((offset) => {
                   const blogIndex = (idx + offset) % items.length;
@@ -49,14 +59,7 @@ const CarouselWithControls = React.memo(({ items, title }) => {
             </Carousel.Item>
           ))}
         </Carousel>
-        <Button
-          variant="light"
-          className="position-absolute top-50 start-0 translate-middle-y"
-          onClick={prev}
-          style={{ zIndex: 1 }}
-        >
-          <ChevronLeft />
-        </Button>
+
         <Button
           variant="light"
           className="position-absolute top-50 end-0 translate-middle-y"
@@ -66,9 +69,11 @@ const CarouselWithControls = React.memo(({ items, title }) => {
           <ChevronRight />
         </Button>
       </div>
-    </>
+    </div>
   );
 });
+
+
 
 const Home = () => {
   const [trendingBlogs, setTrendingBlogs] = useState([]);
@@ -122,20 +127,11 @@ const Home = () => {
 
     return (
       <div className="search-results-dropdown">
-        {filteredBlogs.slice(0, 6).map(blog => (
+        {filteredBlogs.slice(0, 30).map((blog, index) => (
           <div key={blog._id} className="search-result-item" onClick={() => handleBlogClick(blog._id)}>
             {blog.title}
           </div>
         ))}
-        {filteredBlogs.length > 6 && (
-          <div className="search-results-scrollable">
-            {filteredBlogs.slice(6).map(blog => (
-              <div key={blog._id} className="search-result-item" onClick={() => handleBlogClick(blog._id)}>
-                {blog.title}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     );
   };
@@ -165,10 +161,12 @@ const Home = () => {
                 transition={{ duration: 1, delay: 0.5 }}
               >
                 <Form.Control
+                  id="search"
                   type="text"
                   placeholder="Search blogs"
                   className="mr-2"
                   value={searchInput}
+                  style={{width: '20rem'}}
                   onChange={handleSearchChange}
                 />
                 {renderSearchResults()}
@@ -187,7 +185,7 @@ const Home = () => {
         </Form>
       </Container>
 
-      <Container>
+      <Container fluid>
         <CarouselWithControls items={trendingBlogs} title="Trending Blogs" />
         <CarouselWithControls items={topRatedBlogs} title="Top Rated Blogs" />
       </Container>

@@ -5,6 +5,7 @@ import { faEye, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons
 import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import axios from 'axios';
+import NavigationBar from '../../Components/NavigationBar';
 
 
 const BlogDetailsPage = () => {
@@ -74,40 +75,43 @@ const BlogDetailsPage = () => {
   };
 
   return (
-    <Container className="mt-5">
-      <h1>{blog.title}</h1>
-      <p className="my-1 fs-5">By {blog.author.first_name} {blog.author.last_name}</p>
-      <p className="my-1 fs-5">Uploaded on {new Date(blog.date_uploaded).toLocaleDateString('en-IN')}</p>
-      <p className="my-1 fs-5">Topics: {blog.topic_tags.join(", ")}</p>
-      <Row className="mt-3 pb-4 fs-5">
-        <Col>
-          <div> <FontAwesomeIcon icon={faEye} /> Views: {blog.views}</div>
-        </Col>
-        <Col>
-          <div> <FontAwesomeIcon icon={faArrowUp} /> Upvotes: {blog.upvotes}</div>
-        </Col>
-        <Col>
-          <div> <FontAwesomeIcon icon={faArrowDown} /> Downvotes: {blog.downvotes}</div>
-        </Col>
-      </Row>
+    <>
+      <NavigationBar />
+      <Container className="my-4 pt-5">
+        <h1>{blog.title}</h1>
+        <p className="my-1 fs-5">By {blog.author.first_name} {blog.author.last_name}</p>
+        <p className="my-1 fs-5">Uploaded on {new Date(blog.date_uploaded).toLocaleDateString('en-IN')}</p>
+        <p className="my-1 fs-5">Topics: {blog.topic_tags.join(", ")}</p>
+        <Row className="mt-3 pb-4 fs-5">
+          <Col>
+            <div> <FontAwesomeIcon icon={faEye} /> Views: {blog.views}</div>
+          </Col>
+          <Col>
+            <div> <FontAwesomeIcon icon={faArrowUp} /> Upvotes: {blog.upvotes}</div>
+          </Col>
+          <Col>
+            <div> <FontAwesomeIcon icon={faArrowDown} /> Downvotes: {blog.downvotes}</div>
+          </Col>
+        </Row>
 
-      <div className="mt-4">
-        {renderContent()}
-      </div>
+        <div className="mt-4">
+          {renderContent()}
+        </div>
 
-      <Row className="my-4">
-        <Col>
-          <Button variant="success" onClick={handleUpvote}>
-            <FontAwesomeIcon icon={faArrowUp} /> Upvote
-          </Button>
-        </Col>
-        <Col>
-          <Button variant="danger" onClick={handleDownvote}>
-            <FontAwesomeIcon icon={faArrowDown} /> Downvote
-          </Button>
-        </Col>
-      </Row>
-    </Container>
+        <Row className="my-4">
+          <Col>
+            <Button variant="success" onClick={handleUpvote}>
+              <FontAwesomeIcon icon={faArrowUp} /> Upvote
+            </Button>
+          </Col>
+          <Col>
+            <Button variant="danger" onClick={handleDownvote}>
+              <FontAwesomeIcon icon={faArrowDown} /> Downvote
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

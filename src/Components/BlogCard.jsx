@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 
-const BlogCard = ({ title, author, date_uploaded, thumbnail, upvotes, downvotes, views, onClick }) => {
+const BlogCard = ({ title, author, date_uploaded, topic_tags, thumbnail, upvotes, downvotes, views, onClick }) => {
   return (
     <>
       <Card style={{ width: '18rem', margin: '1rem' }} onClick={onClick}>
@@ -12,6 +12,7 @@ const BlogCard = ({ title, author, date_uploaded, thumbnail, upvotes, downvotes,
           <Card.Text as="div">
             <div>Author: {author.first_name} {author.last_name}</div>
             <div>Uploaded: {new Date(date_uploaded).toLocaleDateString('en-IN')}</div>
+            <div>Topics: {topic_tags[0]}{topic_tags.length > 1 ? ', ...' : ''} </div>
           </Card.Text>
 
           <div>Views: {views}</div>

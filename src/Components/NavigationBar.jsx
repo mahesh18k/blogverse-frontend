@@ -3,20 +3,34 @@ import { Navbar, Nav, Container, OverlayTrigger, Popover, Button } from 'react-b
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import './NavigationBar.css';
+
 
 const NavigationBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('Unknown User');
   const navigate = useNavigate();
-  const userData = {
-    name: "John Doe"
-  };
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
     if (storedUserId) {
       setIsLoggedIn(true);
     }
+
+    const fetchUserName = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/username/${storedUserId}`);
+        if (response.status === 200) {
+          setUserName(response.data.userName);
+        }
+      } catch(error) {
+        console.log(error);
+      }
+    }
+
+    fetchUserName();
+
   }, []);
 
   const handleLogout = () => {
@@ -29,7 +43,7 @@ const NavigationBar = () => {
     <Popover id="popover-basic" className="profile-popover">
       <Popover.Header as="h3">Profile</Popover.Header>
       <Popover.Body className='popover-body-text'>
-        <div>Name: {userData.name}</div>
+        <div>Name: {userName}</div>
         <Button href='/profile' className='mt-4' variant="outline-secondary"> My Blogs </Button>
         <Button className='mt-3' variant="danger" onClick={handleLogout}>Logout</Button>
       </Popover.Body>

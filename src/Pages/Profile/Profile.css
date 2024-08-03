@@ -1,0 +1,66 @@
+.profile-container {
+    padding-top: 20px;
+}
+
+.fixed-profile {
+    position: fixed;
+    top: 20px;
+    width: 25rem;
+}
+
+.profile-card {
+    margin-bottom: 20px;
+}
+
+.profile-card .card-header {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.profile-card .card-body {
+    background-color: #f8f9fa;
+}
+
+.profile-card .list-group-item {
+    background-color: #f8f9fa;
+    border: none;
+}
+
+.profile-card .btn {
+    background-color: #007bff;
+    border: none;
+}
+
+.profile-card .btn:hover {
+    background-color: #0056b3;
+}
+
+
+@media (max-width: 1400px) and (min-width: 800px) {
+    .fixed-profile {
+        width: 16rem;
+        position: fixed;
+        top: 20px;
+    }
+
+    .profile-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .blog-cards {
+        margin-left: 28%;
+    }
+}
+
+@media (max-width: 800px) {
+    .profile-container {
+        padding-top: 15px;
+        flex-direction: column;
+    }
+
+    .fixed-profile {
+        position: static;
+        width: 100%;
+    }
+}

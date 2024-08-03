@@ -1,76 +1,83 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { faUser, faBlog, faEye, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion } from 'framer-motion';
 import axios from 'axios';
 import BlogCard from '../../Components/BlogCard';
+import './Profile.css';
+
 
 const Profile = () => {
+  const [userName, setUserName] = useState('Unknown User');
   const [profileData, setProfileData] = useState(null);
-  const [userBlogs, setUserBlogs] = useState([]);
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        if (userId) {
+          const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/username/${userId}`);
+          if (response.status === 200) {
+            setUserName(response.data.userName);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     const fetchProfileData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/profile/${userId}`);
-        console.log(response);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/profile/${userId}`);
         setProfileData(response.data);
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
     };
 
-    const fetchUserBlogs = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog/userblogs/${userId}`);
-        setUserBlogs(response.data);
-      } catch (error) {
-        console.error('Error fetching user blogs:', error);
-      }
-    };
-
+    fetchUserName();
     fetchProfileData();
-    fetchUserBlogs();
   }, [userId]);
 
   if (!profileData) return <div>Loading...</div>;
 
   return (
-    <Container className="mt-5">
-      <Row className="mb-4">
-        <Col md={4}>
-          <Card>
-            <Card.Header as="h5">User Profile</Card.Header>
-            <Card.Body>
-              <Card.Title>{profileData.username}</Card.Title>
-              <Card.Text>
-                No. of Blogs Posted: {profileData.total_blogs}
-              </Card.Text>
-              <ListGroup className="list-group-flush">
-                <ListGroupItem>Total Views: {profileData.total_views}</ListGroupItem>
-                <ListGroupItem>Total Upvotes: {profileData.total_upvotes}</ListGroupItem>
-                <ListGroupItem>Total Downvotes: {profileData.total_downvotes}</ListGroupItem>
-              </ListGroup>
-              <Button variant="primary" href="/create-blog">Create New Blog</Button>
-            </Card.Body>
-          </Card>
+    <Container fluid className="mt-0 profile-container">
+      <Row>
+        <Col md={4} className="fixed-profile">
+          <motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+            <Card className="profile-card">
+              <Card.Header as="h5">
+                <FontAwesomeIcon icon={faUser} /> User Profile
+              </Card.Header>
+              <Card.Body>
+                <Card.Title>{userName}</Card.Title>
+                <ListGroup className="list-group-flush">
+                  <ListGroupItem><FontAwesomeIcon icon={faBlog} /> Blogs Posted: {profileData.total_blogs.length}</ListGroupItem>
+                  <ListGroupItem><FontAwesomeIcon icon={faEye} /> Total Views: {profileData.total_views}</ListGroupItem>
+                  <ListGroupItem><FontAwesomeIcon icon={faThumbsUp} /> Total Upvotes: {profileData.total_upvotes}</ListGroupItem>
+                  <ListGroupItem><FontAwesomeIcon icon={faThumbsDown} /> Total Downvotes: {profileData.total_downvotes}</ListGroupItem>
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          </motion.div>
         </Col>
-        <Col md={8}>
-          <h3>My Blogs</h3>
-          <Row>
-            {userBlogs.map(blog => (
-              <Col key={blog._id} md={6}>
-                <BlogCard
-                  title={blog.title}
-                  author={blog.author}
-                  date_uploaded={blog.date_uploaded}
-                  thumbnail={blog.thumbnail}
-                  upvotes={blog.upvotes}
-                  downvotes={blog.downvotes}
-                  views={blog.views}
-                  onClick={() => console.log(`Navigate to blog ${blog._id}`)}
-                />
+
+        <Col className="blog-cards" md={{ span: 8, offset: 4 }}>
+          <h3 className="my-4">My Blogs</h3>
+          <Row className="blog-grid">
+            {profileData.total_blogs.length === 0 ? (
+              <Col>
+                <p className="my-4 fs-5">No Blogs are Posted</p>
               </Col>
-            ))}
+            ) : (
+              profileData.total_blogs.map((blog, index) => (
+                <Col key={index} xs={12} sm={6} md={6} lg={6} xl={4} className="mr-1 mb-4">
+                  <BlogCard {...blog} onClick={() => window.location.href = `/blog/${blog._id}`} />
+                </Col>
+              ))
+            )}
           </Row>
         </Col>
       </Row>

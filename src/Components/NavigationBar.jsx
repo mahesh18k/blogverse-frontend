@@ -20,11 +20,13 @@ const NavigationBar = () => {
 
     const fetchUserName = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/username/${storedUserId}`);
-        if (response.status === 200) {
-          setUserName(response.data.userName);
+        if (storedUserId) {
+          const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/username/${storedUserId}`);
+          if (response.status === 200) {
+            setUserName(response.data.userName);
+          }
         }
-      } catch(error) {
+      } catch (error) {
         console.log(error);
       }
     }

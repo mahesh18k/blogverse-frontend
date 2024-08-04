@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { faUser, faBlog, faEye, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
@@ -76,8 +76,12 @@ const Profile = () => {
                 </Col>
               ) : (
                 profileData.total_blogs.map((blog, index) => (
-                  <Col key={index} xs={12} sm={6} md={6} lg={6} xl={4} className="mr-1 mb-4">
+                  <Col key={index} xs={12} sm={6} md={6} lg={6} xl={4} className="border mx-5 my-4">
                     <BlogCard {...blog} onClick={() => window.location.href = `/blog/${blog._id}`} />
+                    <div className="mb-2">
+                      <Button variant="secondary" className="mt-0 mx-4"> Edit </Button>
+                      <Button variant="danger" className="mx-2"> Delete </Button>
+                    </div>
                   </Col>
                 ))
               )}

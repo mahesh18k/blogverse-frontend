@@ -41,6 +41,17 @@ const Profile = () => {
     fetchProfileData();
   }, [userId]);
 
+
+  const handleDeleteBlog = async (blogId) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/blog/${blogId}`);
+      window.location.reload(); // Refresh the page to display changes
+    } catch (error) {
+      console.error('Error deleting blog:', error);
+    }
+  };
+
+
   if (!profileData) return <div>Loading...</div>;
 
   return (
@@ -80,7 +91,13 @@ const Profile = () => {
                     <BlogCard {...blog} onClick={() => window.location.href = `/blog/${blog._id}`} />
                     <div className="mb-2">
                       <Button variant="secondary" className="mt-0 mx-4"> Edit </Button>
-                      <Button variant="danger" className="mx-2"> Delete </Button>
+                      <Button
+                        variant="danger"
+                        className="mx-2"
+                        onClick={() => handleDeleteBlog(blog._id)}
+                      >
+                        Delete
+                      </Button>
                     </div>
                   </Col>
                 ))

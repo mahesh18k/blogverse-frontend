@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Carousel, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Carousel, Form, Button, Spinner } from 'react-bootstrap';
 import NavigationBar from '../../Components/NavigationBar';
 import BlogCard from '../../Components/BlogCard';
 import axios from 'axios';
@@ -7,8 +7,9 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import './Home.css';
 
+
 // CarouselWithControls Component
-const CarouselWithControls = React.memo(({ items, title }) => {
+const CarouselWithControls = React.memo(({ items, title, loading }) => {
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex, e) => {
@@ -28,46 +29,54 @@ const CarouselWithControls = React.memo(({ items, title }) => {
       <h1 className="mt-5 mx-5">{title}</h1>
 
       <div className="position-relative">
-        <Button
-          variant="light"
-          className="position-absolute top-50 start-0 translate-middle-y"
-          onClick={prev}
-          style={{ zIndex: 1 }}
-        >
-          <ChevronLeft />
-        </Button>
+        {loading ? (
+          <Spinner animation="border" role="status" className="m-auto spinner-container">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        ) : (
+          <>
+            <Button
+              variant="light"
+              className="position-absolute top-50 start-0 translate-middle-y"
+              onClick={prev}
+              style={{ zIndex: 1 }}
+            >
+              <ChevronLeft />
+            </Button>
 
-        <Carousel className="carousel" activeIndex={index} onSelect={handleSelect} controls={false} indicators={false}>
-          {items.map((blog, idx) => (
-            <Carousel.Item key={blog._id} interval={10000}>
-              <Row>
-                {[0, 1, 2].map((offset) => {
-                  const blogIndex = (idx + offset) % items.length;
-                  return (
-                    <Col key={blogIndex}>
-                      <motion.div
-                        initial={{ opacity: 0, x: -100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                      >
-                        <BlogCard {...items[blogIndex]} onClick={() => window.location.href = `/blog/${items[blogIndex]._id}`} />
-                      </motion.div>
-                    </Col>
-                  );
-                })}
-              </Row>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+            <Carousel className="carousel" activeIndex={index} onSelect={handleSelect} controls={false} indicators={false}>
+              {items.map((blog, idx) => (
+                <Carousel.Item key={blog._id} interval={10000}>
+                  <Row>
+                    {[0, 1, 2].map((offset) => {
+                      const blogIndex = (idx + offset) % items.length;
+                      return (
+                        <Col key={blogIndex}>
+                          <motion.div
+                            initial={{ opacity: 0, x: -100 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                          >
+                            <BlogCard {...items[blogIndex]} onClick={() => window.location.href = `/blog/${items[blogIndex]._id}`} />
+                          </motion.div>
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </Carousel.Item>
+              ))}
+            </Carousel>
 
-        <Button
-          variant="light"
-          className="position-absolute top-50 end-0 translate-middle-y"
-          onClick={next}
-          style={{ zIndex: 1 }}
-        >
-          <ChevronRight />
-        </Button>
+            <Button
+              variant="light"
+              className="position-absolute top-50 end-0 translate-middle-y"
+              onClick={next}
+              style={{ zIndex: 1 }}
+            >
+              <ChevronRight />
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
@@ -81,6 +90,7 @@ const Home = () => {
   const [allBlogs, setAllBlogs] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const trendingTopics = ["Technology", "AI"];
 
@@ -100,9 +110,11 @@ const Home = () => {
         setTrendingBlogs(filteredTrendingBlogs);
         setTopRatedBlogs(sortedTopRatedBlogs);
         setAllBlogs(blogs);
+        setLoading(false); // Set loading to false after data is fetched
       })
       .catch(error => {
         console.error('Error fetching blogs:', error);
+        setLoading(false); // Set loading to false in case of error
       });
   }, []);
 
@@ -166,7 +178,7 @@ const Home = () => {
                   placeholder="Search blogs"
                   className="mr-2"
                   value={searchInput}
-                  style={{width: '20rem'}}
+                  style={{ width: '20rem' }}
                   onChange={handleSearchChange}
                 />
                 {renderSearchResults()}
@@ -186,8 +198,8 @@ const Home = () => {
       </Container>
 
       <Container fluid>
-        <CarouselWithControls items={trendingBlogs} title="Trending Blogs" />
-        <CarouselWithControls items={topRatedBlogs} title="Top Rated Blogs" />
+        <CarouselWithControls items={trendingBlogs} title="Trending Blogs" loading={loading} />
+        <CarouselWithControls items={topRatedBlogs} title="Top Rated Blogs" loading={loading} />
       </Container>
     </>
   );

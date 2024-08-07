@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import BlogCard from '../../Components/BlogCard';
 import NavigationBar from '../../Components/NavigationBar';
+import { Link } from 'react-router-dom';
 import './Profile.css';
 
 
@@ -26,7 +27,7 @@ const Profile = () => {
       } catch (error) {
         console.log(error);
       }
-    }
+    };
 
     const fetchProfileData = async () => {
       try {
@@ -41,7 +42,6 @@ const Profile = () => {
     fetchProfileData();
   }, [userId]);
 
-
   const handleDeleteBlog = async (blogId) => {
     try {
       await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/blog/${blogId}`);
@@ -50,7 +50,6 @@ const Profile = () => {
       console.error('Error deleting blog:', error);
     }
   };
-
 
   if (!profileData) return <div>Loading...</div>;
 
@@ -90,7 +89,9 @@ const Profile = () => {
                   <Col key={index} xs={12} sm={6} md={6} lg={6} xl={4} className="border mx-5 my-4">
                     <BlogCard {...blog} onClick={() => window.location.href = `/blog/${blog._id}`} />
                     <div className="mb-2">
-                      <Button variant="secondary" className="mt-0 mx-4"> Edit </Button>
+                      <Link to={`/editblog/${blog._id}`}>
+                        <Button variant="secondary" className="mt-0 mx-4">Edit</Button>
+                      </Link>
                       <Button
                         variant="danger"
                         className="mx-2"

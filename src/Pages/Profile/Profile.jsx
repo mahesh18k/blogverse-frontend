@@ -74,7 +74,7 @@ const Profile = () => {
             </Card>
           </Col>
 
-          <Col md={8} className="blog-section">
+          <Col md={8} className="blog-section-profile">
             <h3 className="my-4">My Blogs</h3>
             <Row className="blog-grid">
               {profileData.total_blogs.length === 0 ? (

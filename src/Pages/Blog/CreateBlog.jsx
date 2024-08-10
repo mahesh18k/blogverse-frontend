@@ -38,14 +38,9 @@ const CreateBlog = () => {
     };
 
     try {
-      const blogResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog`, blogData);
-      const blogId = blogResponse.data.blogId;
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog`, blogData);
 
-      await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/profile/stats/${localStorage.getItem('userId')}`, {
-        blogId: blogId
-      });
-
-      alert('Blog created successfully and profile updated!');
+      alert('Blog created successfully');
     } catch (error) {
       console.error('Error creating blog:', error);
     }

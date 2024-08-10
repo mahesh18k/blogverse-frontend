@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { faUser, faBlog, faEye, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { motion } from 'framer-motion';
 import axios from 'axios';
 import BlogCard from '../../Components/BlogCard';
 import NavigationBar from '../../Components/NavigationBar';
@@ -56,28 +55,26 @@ const Profile = () => {
   return (
     <>
       <NavigationBar />
-      <Container fluid className="mt-5 profile-container">
+      <Container fluid className="profile-container mt-5">
         <Row>
-          <Col md={4} className="mt-5 fixed-profile">
-            <motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <Card className="profile-card">
-                <Card.Header as="h5">
-                  <FontAwesomeIcon icon={faUser} /> User Profile
-                </Card.Header>
-                <Card.Body>
-                  <Card.Title>{userName}</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem><FontAwesomeIcon icon={faBlog} /> Blogs Posted: {profileData.total_blogs.length}</ListGroupItem>
-                    <ListGroupItem><FontAwesomeIcon icon={faEye} /> Total Views: {profileData.total_views}</ListGroupItem>
-                    <ListGroupItem><FontAwesomeIcon icon={faThumbsUp} /> Total Upvotes: {profileData.total_upvotes}</ListGroupItem>
-                    <ListGroupItem><FontAwesomeIcon icon={faThumbsDown} /> Total Downvotes: {profileData.total_downvotes}</ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-              </Card>
-            </motion.div>
+          <Col md={4} className="profile-section">
+            <Card className="profile-card">
+              <Card.Header as="h5">
+                <FontAwesomeIcon icon={faUser} /> User Profile
+              </Card.Header>
+              <Card.Body>
+                <Card.Title>{userName}</Card.Title>
+                <ListGroup className="list-group-flush">
+                  <ListGroupItem><FontAwesomeIcon icon={faBlog} /> Blogs Posted: {profileData.total_blogs.length}</ListGroupItem>
+                  <ListGroupItem><FontAwesomeIcon icon={faEye} /> Total Views: {profileData.total_views}</ListGroupItem>
+                  <ListGroupItem><FontAwesomeIcon icon={faThumbsUp} /> Total Upvotes: {profileData.total_upvotes}</ListGroupItem>
+                  <ListGroupItem><FontAwesomeIcon icon={faThumbsDown} /> Total Downvotes: {profileData.total_downvotes}</ListGroupItem>
+                </ListGroup>
+              </Card.Body>
+            </Card>
           </Col>
 
-          <Col className="blog-cards" md={{ span: 8, offset: 4 }}>
+          <Col md={8} className="blog-section">
             <h3 className="my-4">My Blogs</h3>
             <Row className="blog-grid">
               {profileData.total_blogs.length === 0 ? (
@@ -86,17 +83,13 @@ const Profile = () => {
                 </Col>
               ) : (
                 profileData.total_blogs.map((blog, index) => (
-                  <Col key={index} xs={12} sm={6} md={6} lg={6} xl={4} className="border mx-5 my-4">
+                  <Col key={index} xs={12} sm={6} md={6} lg={6} xl={6} className="mb-4">
                     <BlogCard {...blog} onClick={() => window.location.href = `/blog/${blog._id}`} />
-                    <div className="mb-2">
+                    <div className="d-flex justify-content-center mt-2">
                       <Link to={`/editblog/${blog._id}`}>
-                        <Button variant="secondary" className="mt-0 mx-4">Edit</Button>
+                        <Button variant="secondary" className="me-2">Edit</Button>
                       </Link>
-                      <Button
-                        variant="danger"
-                        className="mx-2"
-                        onClick={() => handleDeleteBlog(blog._id)}
-                      >
+                      <Button variant="danger" onClick={() => handleDeleteBlog(blog._id)}>
                         Delete
                       </Button>
                     </div>

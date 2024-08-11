@@ -1,3 +1,17 @@
+# React.js
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+
+
+# Node.js
 # Logs
 logs
 *.log

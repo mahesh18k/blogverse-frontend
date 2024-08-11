@@ -92,7 +92,7 @@ const Home = () => {
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const trendingTopics = ["Technology", "AI"];
+  const [trendingTopics, setTrendingTopics] = useState(["Technology", "AI"]);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog`)
@@ -116,7 +116,7 @@ const Home = () => {
         console.error('Error fetching blogs:', error);
         setLoading(false); // Set loading to false in case of error
       });
-  }, []);
+  }, [trendingTopics]);
 
   const handleSearchChange = (e) => {
     const input = e.target.value;

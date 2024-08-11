@@ -92,7 +92,7 @@ const Home = () => {
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [trendingTopics, setTrendingTopics] = useState(["Technology", "AI"]);
+  const [trendingTopics, setTrendingTopics] = useState([]);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog`)
@@ -106,7 +106,8 @@ const Home = () => {
         const sortedTopRatedBlogs = [...blogs]
           .sort((a, b) => b.upvotes - a.upvotes)
           .slice(0, 10);
-
+        
+        setTrendingTopics(["Technology", "AI"]);
         setTrendingBlogs(filteredTrendingBlogs);
         setTopRatedBlogs(sortedTopRatedBlogs);
         setAllBlogs(blogs);

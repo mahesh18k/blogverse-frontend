@@ -14,8 +14,7 @@
 6. [API Endpoints](#api-endpoints)
 7. [Folder Structure](#folder-structure)
 8. [Contributing](#contributing)
-9. [License](#license)
-10. [Contact](#contact)
+9. [Contact](#contact)
 
 ## **Project Overview**
 
@@ -35,19 +34,30 @@ BlogVerse is a fully functional blog platform where users can create, view, and 
 ### **Frontend**
 
 - **React.js**: A powerful JavaScript library for building user interfaces.
-- **React-Bootstrap**: Used for responsive design and UI components, ensuring a consistent and mobile-friendly user interface.
-- **React-Quill**: A rich text editor for managing and formatting blog content.
-- **React Router DOM**: Facilitates seamless navigation and routing within the single-page application.
-- **Axios**: Used for making HTTP requests to the backend API.
-- **Framer Motion**: Handles animations and transitions, enhancing the visual experience.
-- **FontAwesome**: Provides a comprehensive set of icons used throughout the application.
+- **React Router DOM**: Manages the navigation and routing in the application.
+- **React Bootstrap**: Provides pre-styled components, enhancing UI design.
+- **React Icons & React Bootstrap Icons**: Used for implementing scalable vector icons that can be customized easily.
+- **React Quill**: A rich text editor component that enables content creation with formatting.
+- **Framer Motion**: A powerful animation library used for adding animations and transitions.
+- **Axios**: Handles HTTP requests to communicate with the backend API.
+- **Dompurify**: Ensures that the rendered HTML is secure by sanitizing the user-generated content.
+- **Font Awesome**: Provides a wide array of icons for enhancing UI.
+- **Testing Library (React, Jest-DOM, User Event)**: Used for unit testing the components to ensure code quality.
+- **Web Vitals**: Helps in measuring the core web vitals to monitor the performance of the web application.
 
 ### **Backend**
 
-- **Node.js**: JavaScript runtime used to build the server-side of the application.
-- **Express.js**: A minimalist web framework for building robust APIs.
+- **Node.js**: The runtime environment for running JavaScript on the server-side.
+- **Express.js**: A minimal and flexible Node.js web application framework that provides robust features for building APIs.
 - **MongoDB**: A NoSQL database used for storing blog posts, user data, and other related information.
-- **Dompurify**: Ensures content security by sanitizing HTML input and preventing XSS attacks.
+- **Mongoose**: A MongoDB object modeling tool designed to work in an asynchronous environment.
+- **Body-Parser**: A middleware to handle parsing of incoming request bodies in a middleware before your handlers, available under req.body.
+- **Cors**: Middleware that can be used to enable CORS (Cross-Origin Resource Sharing) with various options.
+- **Dotenv**: Module to load environment variables from a .env file into process.env.
+- **Nodemon**: A utility that monitors for any changes in your source and automatically restarts your server.
+
+#### Note: The backend uses the ESM module type, enabling the use of "import" statements instead of "require". This aligns the backend with the modern JavaScript syntax, similar to what is used in the React.js frontend.
+
 
 ### **Testing**
 
@@ -141,23 +151,39 @@ BlogVerse is a fully functional blog platform where users can create, view, and 
 BlogVerse/
 │
 ├── backend/
-│ ├── Controllers/
-│ ├── Models/
-│ ├── node_modules/
-│ ├── .env
-│ ├── .gitignore
-│ ├── package.json
-│ ├── server.js
+│   ├── Controllers/
+│   ├── Models/
+│   ├── node_modules/
+│   ├── .env
+│   ├── .gitignore
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── server.js
+│   ├── vercel.json
 │
 ├── frontend/
-│ ├── public/
-│ ├── src/
-│ ├── node_modules/
-│ ├── .gitignore
-│ ├── package.json
-│ ├── README.md
-│
-└── README.md
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   ├── Components/
+│   │   ├── Pages/
+│   │   │   ├── Auth/
+│   │   │   ├── Blog/
+│   │   │   ├── Home/
+│   │   │   ├── Profile/
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── reportWebVitals.js
+│   │   ├── setupTests.js
+│   ├── .env
+│   ├── .gitignore
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+
 
 
 

@@ -2,9 +2,10 @@
 
 <!-- ![BlogVerse Logo](path/to/logo.png) -->
 
-#### Live Demo: https://blogversewebapp.netlify.app/
-#### Frontend: https://github.com/MaheshKunchala18/blogverse-frontend
-#### Backend: https://github.com/MaheshKunchala18/blogverse-backend
+## Links
+<a href="https://blogversewebapp.netlify.app/" target="_blank"> Live Demo </a> ↗️ |
+<a href="https://github.com/MaheshKunchala18/blogverse-frontend" target="_blank"> Frontend Repository </a> <img src="https://img.icons8.com/material-outlined/24/000000/github.png" /> |
+<a href="https://github.com/MaheshKunchala18/blogverse-backend" target="_blank"> Backend Repository </a> <img src="https://img.icons8.com/material-outlined/24/000000/github.png" />
 
 
 ## **Table of Contents**
@@ -59,7 +60,7 @@ BlogVerse is a fully functional blog platform where users can create, view, and 
 - **Dotenv**: Module to load environment variables from a .env file into process.env.
 - **Nodemon**: A utility that monitors for any changes in your source and automatically restarts your server.
 
-#### Note: The backend uses the ESM module type, enabling the use of "import" statements instead of "require". This aligns the backend with the modern JavaScript syntax, similar to what is used in the React.js frontend.
+**Note**: The backend uses the ESM module type, enabling the use of "import" statements instead of "require". This aligns the backend with the modern JavaScript syntax, similar to what is used in the React.js frontend.
 
 
 ### **Testing**
@@ -76,16 +77,14 @@ BlogVerse is a fully functional blog platform where users can create, view, and 
 
 ### **Installation**
 
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/MaheshKunchala18/blogverse-frontend
-    cd blogwebsite
-    ```
-
-2. **Backend Setup:**
+1. **Backend Setup:**
+   - Clone the repository:
+     ```bash
+     git clone https://github.com/MaheshKunchala18/blogverse-backend
+     ```
    - Navigate to the backend directory:
      ```bash
-     cd backend
+     cd blogverse-backend
      ```
    - Install the dependencies:
      ```bash
@@ -93,7 +92,7 @@ BlogVerse is a fully functional blog platform where users can create, view, and 
      ```
    - Create a `.env` file in the backend directory and add your environment variables:
      ```bash
-     MONGO_URI=your_mongodb_uri
+     MONGODB_URI=your_mongodb_uri
      PORT=3001
      ```
    - Start the backend server:
@@ -101,21 +100,29 @@ BlogVerse is a fully functional blog platform where users can create, view, and 
      npm start
      ```
 
-3. **Frontend Setup:**
+2. **Frontend Setup:**
+   - Clone the repository:
+     ```bash
+     git clone https://github.com/MaheshKunchala18/blogverse-frontend
+     ```
    - Navigate to the frontend directory:
      ```bash
-     cd frontend
+     cd blogverse-frontend
      ```
    - Install the dependencies:
      ```bash
      npm install
+     ```
+   - Create a `.env` file in the frontend directory and add your environment variables:
+     ```bash
+     REACT_APP_BACKEND_URL=your_backend_url
      ```
    - Start the frontend server:
      ```bash
      npm start
      ```
 
-4. **Access the Application:**
+3. **Access the Application:**
    - Open your browser and navigate to `http://localhost:3000`.
 
 ## **Usage**
@@ -151,6 +158,7 @@ BlogVerse is a fully functional blog platform where users can create, view, and 
 
 ## **Folder Structure**
 
+```bash
 BlogVerse/
 │
 ├── backend/
@@ -186,7 +194,7 @@ BlogVerse/
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── README.md
-
+```
 
 
 
@@ -201,5 +209,5 @@ For any inquiries or feedback, please contact:
 
 **Mahesh Kunchala**
 - LinkedIn: [Mahesh Kunchala](https://linkedin.com/in/mahesh-kunchala-23854624b/)  
-- GitHub: [Mahesh Kunchala](https://github.com/maheshkunchala)
+- GitHub: [Mahesh Kunchala](https://github.com/MaheshKunchala18)
 

@@ -1,8 +1,11 @@
 # **BlogVerse**
 
-![BlogVerse Logo](path/to/logo.png)
+<!-- ![BlogVerse Logo](path/to/logo.png) -->
 
-[Live Demo](https://blogversewebapp.netlify.app/) | [GitHub Repository](https://github.com/MaheshKunchala18/blogverse-frontend)
+### Live Demo: https://blogversewebapp.netlify.app/
+### Frontend: https://github.com/MaheshKunchala18/blogverse-frontend
+### Backend: https://github.com/MaheshKunchala18/blogverse-backend
+
 
 ## **Table of Contents**
 

@@ -2,9 +2,9 @@
 
 <!-- ![BlogVerse Logo](path/to/logo.png) -->
 
-### Live Demo: https://blogversewebapp.netlify.app/
-### Frontend: https://github.com/MaheshKunchala18/blogverse-frontend
-### Backend: https://github.com/MaheshKunchala18/blogverse-backend
+#### Live Demo: https://blogversewebapp.netlify.app/
+#### Frontend: https://github.com/MaheshKunchala18/blogverse-frontend
+#### Backend: https://github.com/MaheshKunchala18/blogverse-backend
 
 
 ## **Table of Contents**

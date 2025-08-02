@@ -106,7 +106,7 @@ const Home = () => {
         const sortedTopRatedBlogs = [...blogs]
           .sort((a, b) => b.upvotes - a.upvotes)
           .slice(0, 10);
-        
+
         setTrendingTopics(["Technology", "AI"]);
         setTrendingBlogs(filteredTrendingBlogs);
         setTopRatedBlogs(sortedTopRatedBlogs);
@@ -125,7 +125,12 @@ const Home = () => {
 
     if (input.trim() !== '') {
       const filtered = allBlogs.filter(blog =>
-        blog.title.toLowerCase().includes(input.toLowerCase())
+        blog.title.toLowerCase().includes(input.toLowerCase()) ||
+        blog.author?.first_name?.toLowerCase().includes(input.toLowerCase()) ||
+        blog.author?.last_name?.toLowerCase().includes(input.toLowerCase()) ||
+        (blog.topic_tags && blog.topic_tags.some(tag =>
+          tag.toLowerCase().includes(input.toLowerCase())
+        ))
       );
       setFilteredBlogs(filtered);
     } else {
@@ -176,10 +181,17 @@ const Home = () => {
                 <Form.Control
                   id="search"
                   type="text"
-                  placeholder="Search blogs"
+                  placeholder="Search blogs by title, author, or topics..."
                   className="mr-2"
                   value={searchInput}
-                  style={{ width: '20rem' }}
+                  style={{
+                    width: '25rem',
+                    borderRadius: '25px',
+                    padding: '12px 20px',
+                    border: '2px solid rgba(255,255,255,0.3)',
+                    backgroundColor: 'rgba(255,255,255,0.9)',
+                    fontSize: '1rem'
+                  }}
                   onChange={handleSearchChange}
                 />
                 {renderSearchResults()}
@@ -191,7 +203,22 @@ const Home = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, delay: 0.7 }}
               >
-                <Button variant="primary">Search</Button>
+                <Button
+                  variant="primary"
+                  style={{
+                    borderRadius: '25px',
+                    padding: '12px 24px',
+                    fontWeight: '600',
+                    border: 'none',
+                    backgroundColor: '#007bff',
+                    fontSize: '1rem'
+                  }}
+                  onClick={() => {
+                    window.location.href = '/blog';
+                  }}
+                >
+                  Search
+                </Button>
               </motion.div>
             </Col>
           </Row>

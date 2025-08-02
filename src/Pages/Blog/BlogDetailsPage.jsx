@@ -6,12 +6,14 @@ import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import axios from 'axios';
 import NavigationBar from '../../Components/NavigationBar';
+import { toast } from 'react-toastify';
 
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -33,8 +35,10 @@ const BlogDetailsPage = () => {
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog/${id}/upvote`);
       setBlog(prevBlog => ({ ...prevBlog, upvotes: prevBlog.upvotes + 1 }));
+              toast.success('👍 Thanks for your upvote! Your support means a lot.');
     } catch (error) {
       console.error('Error upvoting blog:', error);
+      toast.error('❌ Unable to upvote. Please try again later.');
     }
   };
 
@@ -42,8 +46,10 @@ const BlogDetailsPage = () => {
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog/${id}/downvote`);
       setBlog(prevBlog => ({ ...prevBlog, downvotes: prevBlog.downvotes + 1 }));
+              toast.success('👎 Feedback noted. Thanks for helping improve content quality.');
     } catch (error) {
       console.error('Error downvoting blog:', error);
+      toast.error('❌ Unable to downvote. Please try again later.');
     }
   };
 

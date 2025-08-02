@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col, ProgressBar } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from './AuthContext';
+import { toast } from 'react-toastify';
 import axios from "axios";
 import './LoginSignup.css';
 
@@ -22,6 +23,7 @@ function Signup() {
 
     const navigate = useNavigate();  // Redirects to another page upon successful signup
     const { setUserId } = useContext(AuthContext);  // Assuming you have setUserId in context
+
 
 
     const calculateStrength = (password) => {
@@ -60,9 +62,18 @@ function Signup() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        
+        // Password match validation
         if (password !== confirmPassword) {
+            toast.warning('Passwords do not match. Please try again.');
             setInvalidInput(true);
             setTimeout(() => setInvalidInput(false), 1000);
+            return;
+        }
+
+        // Password strength validation
+        if (strength < 2) {
+            toast.warning('Please choose a stronger password for better security.');
             return;
         }
 
@@ -78,13 +89,16 @@ function Signup() {
                 const userId = response.data.userId;
                 localStorage.setItem('userId', userId); // Store userId in local storage
                 setUserId(userId); // Update context
+                toast.success(`🎉 Welcome ${firstName}! Your account has been created successfully.`);
                 navigate('/');
             } else {
-                console.error('Signup failed');
+                toast.error('Signup failed. Please try again.');
             }
 
         } catch (error) {
             console.error('Error signing up:', error);
+            const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
+            toast.error(errorMessage);
         }
     };
 

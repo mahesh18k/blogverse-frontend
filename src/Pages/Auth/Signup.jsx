@@ -62,7 +62,7 @@ function Signup() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         // Password match validation
         if (password !== confirmPassword) {
             toast.warning('Passwords do not match. Please try again.');
@@ -89,7 +89,7 @@ function Signup() {
                 const userId = response.data.userId;
                 localStorage.setItem('userId', userId); // Store userId in local storage
                 setUserId(userId); // Update context
-                toast.success(`🎉 Welcome ${firstName}! Your account has been created successfully.`);
+                toast.success(`Welcome ${firstName}! Your account has been created successfully.`);
                 navigate('/');
             } else {
                 toast.error('Signup failed. Please try again.');
@@ -193,7 +193,7 @@ function Signup() {
                                         </div>
                                     </Form.Group>
 
-                                    <p style={{marginBottom: '2px', fontSize: '15px', fontWeight: '400'}} >Password Strength</p>
+                                    <p style={{ marginBottom: '2px', fontSize: '15px', fontWeight: '400' }} >Password Strength</p>
                                     <ProgressBar className="mb-3" striped variant={variant} now={(strength / 4) * 100} label={passwordStrengthMessage} />
 
 

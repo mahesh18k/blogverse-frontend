@@ -64,7 +64,7 @@ const CreateBlog = () => {
 
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog`, blogData);
-              toast.success('🎉 Blog created successfully! Your amazing content is now live.');
+              toast.success('Blog created successfully! Your amazing content is now live.');
       
       // Reset form
       setTitle('');

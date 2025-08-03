@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import axios from 'axios';
 import NavigationBar from '../../Components/NavigationBar';
+import LazyImage from '../../Components/LazyImage';
 import { toast } from 'react-toastify';
 
 
@@ -35,7 +36,7 @@ const BlogDetailsPage = () => {
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog/${id}/upvote`);
       setBlog(prevBlog => ({ ...prevBlog, upvotes: prevBlog.upvotes + 1 }));
-              toast.success('👍 Thanks for your upvote! Your support means a lot.');
+      toast.success('👍 Thanks for your upvote! Your support means a lot.');
     } catch (error) {
       console.error('Error upvoting blog:', error);
       toast.error('❌ Unable to upvote. Please try again later.');
@@ -46,7 +47,7 @@ const BlogDetailsPage = () => {
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog/${id}/downvote`);
       setBlog(prevBlog => ({ ...prevBlog, downvotes: prevBlog.downvotes + 1 }));
-              toast.success('👎 Feedback noted. Thanks for helping improve content quality.');
+      toast.success('👎 Feedback noted. Thanks for helping improve content quality.');
     } catch (error) {
       console.error('Error downvoting blog:', error);
       toast.error('❌ Unable to downvote. Please try again later.');
@@ -73,7 +74,25 @@ const BlogDetailsPage = () => {
         <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(part) }} />
         {index < blog.images.length && (
           <div className="mt-4 text-center">
-            <img width={'700px'} height={'400px'} src={blog.images[index]} alt={`Blog ${index + 1}`} />
+            <div style={{
+              maxWidth: '700px',
+              height: '400px',
+              margin: '0 auto',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              overflow: 'hidden'
+            }}>
+              <LazyImage
+                src={blog.images[index]}
+                alt={`Blog content image ${index + 1}`}
+                style={{
+                  width: '100%',
+                  height: '100%'
+                }}
+                className="img-fluid"
+                skeletonVariant="banner"
+              />
+            </div>
           </div>
         )}
       </React.Fragment>

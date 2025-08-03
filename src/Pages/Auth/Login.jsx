@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from './AuthContext';
+import { toast } from 'react-toastify';
 import './LoginSignup.css';
 
 
@@ -16,6 +17,7 @@ function Login() {
     const [invalidInput, setInvalidInput] = useState(false);  // When Email and Password not match, boxes animate.
     const { setUserId } = useContext(AuthContext);
     const navigate = useNavigate();
+
 
     const handleResize = () => {
         setShowImage(window.innerWidth >= 700);
@@ -56,14 +58,18 @@ function Login() {
                 const data = await response.json();
                 localStorage.setItem('userId', data.userId); // Save the user ID in local storage
                 setUserId(data.userId); // Update the context state
+                toast.success('Welcome back! Login successful.');
                 navigate('/'); // Redirects to home page
             } else {
-                console.error('Login failed');
+                const errorData = await response.json().catch(() => ({}));
+                const errorMessage = errorData.message || 'Invalid email or password. Please try again.';
+                toast.error(errorMessage);
                 setInvalidInput(true);
                 setTimeout(() => setInvalidInput(false), 1000);
             }
         } catch (error) {
             console.error('Error logging in:', error);
+            toast.error('Network error. Please check your connection and try again.');
         }
     };
 

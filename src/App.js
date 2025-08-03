@@ -1,9 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Auth/Login';
 import Signup from './Pages/Auth/Signup';
-import './App.css';
 import BlogListPage from './Pages/Blog/BlogListPage';
 import BlogDetailsPage from './Pages/Blog/BlogDetailsPage';
 import CreateBlog from './Pages/Blog/CreateBlog';
@@ -23,6 +25,18 @@ function App() {
         <Route path="/editblog/:id" element={<EditBlog />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </BrowserRouter>
   );
 }

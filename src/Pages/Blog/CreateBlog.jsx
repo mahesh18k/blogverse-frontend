@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
 import NavigationBar from '../../Components/NavigationBar';
+import { toast } from 'react-toastify';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
@@ -14,18 +15,42 @@ const CreateBlog = () => {
   const [show, setShow] = useState(false);
   const [images, setImages] = useState([]);
 
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleImageInsert = () => {
+    if (!imageURL.trim()) {
+      toast.error('Please enter a valid image URL.');
+      return;
+    }
     const imgTag = `[IMAGE]`;
     setContent(prevContent => `${prevContent}\n\n${imgTag}\n\n`);
     setImages([...images, imageURL]);
     setImageURL('');
+    toast.info('Image added to your blog content.');
     handleClose();
   };
 
   const handleSubmit = async () => {
+    // Validation
+    if (!title.trim()) {
+      toast.error('Please enter a blog title.');
+      return;
+    }
+    if (!topicTags.trim()) {
+      toast.error('Please enter topic tags.');
+      return;
+    }
+    if (!thumbnail.trim()) {
+      toast.error('Please enter a thumbnail URL.');
+      return;
+    }
+    if (!content.trim()) {
+      toast.error('Please add content to your blog.');
+      return;
+    }
+
     const topicTagsArray = topicTags.split(',').map(tag => tag.trim());
 
     const blogData = {
@@ -39,10 +64,18 @@ const CreateBlog = () => {
 
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blog`, blogData);
-
-      alert('Blog created successfully');
+              toast.success('Blog created successfully! Your amazing content is now live.');
+      
+      // Reset form
+      setTitle('');
+      setTopicTags('');
+      setThumbnail('');
+      setContent('');
+      setImages([]);
     } catch (error) {
       console.error('Error creating blog:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to create blog. Please try again.';
+              toast.error(errorMessage);
     }
   };
 

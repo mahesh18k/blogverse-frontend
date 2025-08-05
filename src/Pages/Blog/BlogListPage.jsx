@@ -145,17 +145,6 @@ const BlogListPage = () => {
           </Alert>
         ) : (
           <>
-            {/* Pagination Component - Top */}
-            <Pagination
-              currentPage={currentPage}
-              totalItems={searchResultsCount}
-              itemsPerPage={itemsPerPage}
-              onPageChange={handlePageChange}
-              onItemsPerPageChange={handleItemsPerPageChange}
-              showInfo={true}
-              showItemsPerPage={true}
-            />
-
             {/* Blog Grid */}
             <Row className="mb-4 blog-grid-container">
               {paginatedBlogs.map((blog) => (
@@ -165,20 +154,18 @@ const BlogListPage = () => {
               ))}
             </Row>
 
-            {/* Pagination Component - Bottom */}
-            {searchResultsCount > itemsPerPage && (
-              <div className="mt-4">
-                <Pagination
-                  currentPage={currentPage}
-                  totalItems={searchResultsCount}
-                  itemsPerPage={itemsPerPage}
-                  onPageChange={handlePageChange}
-                  onItemsPerPageChange={handleItemsPerPageChange}
-                  showInfo={false}
-                  showItemsPerPage={false}
-                />
-              </div>
-            )}
+            {/* Pagination Component */}
+            <div className="mt-4">
+              <Pagination
+                currentPage={currentPage}
+                totalItems={searchResultsCount}
+                itemsPerPage={itemsPerPage}
+                onPageChange={handlePageChange}
+                onItemsPerPageChange={handleItemsPerPageChange}
+                showInfo={true}
+                showItemsPerPage={true}
+              />
+            </div>
           </>
         )}
       </Container>

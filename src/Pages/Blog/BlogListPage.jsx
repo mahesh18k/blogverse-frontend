@@ -16,11 +16,11 @@ const BlogListPage = () => {
   const [loading, setLoading] = useState(true);
   const [searchResultsCount, setSearchResultsCount] = useState(0);
 
-  // Pagination state with URL persistence
   const [currentPage, setCurrentPage] = useState(() => {
     const page = parseInt(searchParams.get('page'));
     return page > 0 ? page : 1;
   });
+  
   const [itemsPerPage, setItemsPerPage] = useState(() => {
     const items = parseInt(searchParams.get('per_page'));
     return [6, 12, 24, 48].includes(items) ? items : 12;

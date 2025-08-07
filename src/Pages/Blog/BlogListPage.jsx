@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
@@ -20,7 +20,7 @@ const BlogListPage = () => {
     const page = parseInt(searchParams.get('page'));
     return page > 0 ? page : 1;
   });
-  
+
   const [itemsPerPage, setItemsPerPage] = useState(() => {
     const items = parseInt(searchParams.get('per_page'));
     return [6, 12, 24, 48].includes(items) ? items : 12;
@@ -54,22 +54,25 @@ const BlogListPage = () => {
     return filteredBlogs.slice(startIndex, endIndex);
   }, [filteredBlogs, currentPage, itemsPerPage]);
 
-  const handleFilteredResults = (filtered) => {
+  const handleFilteredResults = useCallback((filtered) => {
     setFilteredBlogs(filtered);
     setSearchResultsCount(filtered.length);
-    // Reset to first page when filter results change
-    setCurrentPage(1);
-    // Update URL to reset page to 1
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', '1');
-    setSearchParams(newSearchParams);
-  };
 
-  const handleSortChange = (newSort) => {
+    // Only reset to first page if the current page would be out of bounds
+    const totalPages = Math.ceil(filtered.length / itemsPerPage);
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set('page', '1');
+      setSearchParams(newSearchParams);
+    }
+  }, [searchParams, setSearchParams, currentPage, itemsPerPage]);
+
+  const handleSortChange = useCallback((newSort) => {
     setSortOption(newSort);
-  };
+  }, []);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = useCallback((page) => {
     setCurrentPage(page);
     // Update URL parameters
     const newSearchParams = new URLSearchParams(searchParams);
@@ -77,9 +80,9 @@ const BlogListPage = () => {
     setSearchParams(newSearchParams);
     // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, [searchParams, setSearchParams]);
 
-  const handleItemsPerPageChange = (newItemsPerPage) => {
+  const handleItemsPerPageChange = useCallback((newItemsPerPage) => {
     setItemsPerPage(newItemsPerPage);
     setCurrentPage(1);
     // Update URL parameters
@@ -87,7 +90,7 @@ const BlogListPage = () => {
     newSearchParams.set('per_page', newItemsPerPage.toString());
     newSearchParams.set('page', '1');
     setSearchParams(newSearchParams);
-  };
+  }, [searchParams, setSearchParams]);
 
   return (
     <>

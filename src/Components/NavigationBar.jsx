@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, OverlayTrigger, Popover, Button, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { BookmarkFill } from 'react-bootstrap-icons';
+import { useBookmarks } from '../Context/BookmarkContext';
 import axios from 'axios';
 import './NavigationBar.css';
 
@@ -11,6 +13,7 @@ const NavigationBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('Unknown User');
   const navigate = useNavigate();
+  const { getBookmarksCount } = useBookmarks();
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
@@ -63,6 +66,20 @@ const NavigationBar = () => {
             {isLoggedIn ? (
               <>
                 <Nav.Link href="/createblog">Create a Blog</Nav.Link>
+                <Nav.Link href="/bookmarks" className="position-relative">
+                  <BookmarkFill className="me-1" />
+                  Bookmarks
+                  {getBookmarksCount() > 0 && (
+                    <Badge 
+                      bg="primary" 
+                      pill 
+                      className="position-absolute top-0 start-100 translate-middle"
+                      style={{ fontSize: '0.7rem' }}
+                    >
+                      {getBookmarksCount()}
+                    </Badge>
+                  )}
+                </Nav.Link>
                 <OverlayTrigger trigger="click" placement="bottom" overlay={profilePopover} rootClose>
                   <Button variant="link" style={{ color: 'white', padding: 0, marginLeft: '10px' }}>
                     <FontAwesomeIcon icon={faUserCircle} size="2x" />

@@ -11,6 +11,7 @@ import BlogDetailsPage from './Pages/Blog/BlogDetailsPage';
 import CreateBlog from './Pages/Blog/CreateBlog';
 import Profile from './Pages/Profile/Profile';
 import EditBlog from './Pages/Blog/EditBlog';
+import Bookmarks from './Pages/Bookmarks/Bookmarks';
 import NotFound from './Pages/NotFound/NotFound';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/createblog" element={<CreateBlog />} />
         <Route path="/editblog/:id" element={<EditBlog />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/bookmarks" element={<Bookmarks />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer

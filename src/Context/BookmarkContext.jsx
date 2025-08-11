@@ -48,7 +48,7 @@ export const BookmarkProvider = ({ children }) => {
     setLoading(true);
     try {
       const isAlreadyBookmarked = bookmarks.some(bookmark => bookmark._id === blog._id);
-      
+
       if (isAlreadyBookmarked) {
         toast.info('📚 Blog is already bookmarked!');
         setLoading(false);
@@ -132,9 +132,9 @@ export const BookmarkProvider = ({ children }) => {
   // Search bookmarks
   const searchBookmarks = (query) => {
     if (!query || query.trim() === '') return bookmarks;
-    
+
     const lowercaseQuery = query.toLowerCase();
-    return bookmarks.filter(bookmark => 
+    return bookmarks.filter(bookmark =>
       bookmark.title.toLowerCase().includes(lowercaseQuery) ||
       bookmark.author?.first_name?.toLowerCase().includes(lowercaseQuery) ||
       bookmark.author?.last_name?.toLowerCase().includes(lowercaseQuery) ||

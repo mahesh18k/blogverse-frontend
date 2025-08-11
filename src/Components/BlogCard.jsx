@@ -6,7 +6,7 @@ import LazyImage from './LazyImage';
 
 const BlogCard = ({ _id, title, author, date_uploaded, topic_tags, thumbnail, upvotes, downvotes, views, onClick }) => {
   const { isBookmarked, toggleBookmark, loading } = useBookmarks();
-  
+
   const blogData = {
     _id, title, author, date_uploaded, topic_tags, thumbnail, upvotes, downvotes, views
   };

@@ -4,12 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { BookmarkFill, Bookmark, Share } from 'react-bootstrap-icons';
 import { useParams } from 'react-router-dom';
+import { useBookmarks } from '../../Context/BookmarkContext';
+import { toast } from 'react-toastify';
 import DOMPurify from 'dompurify';
 import axios from 'axios';
 import NavigationBar from '../../Components/NavigationBar';
 import LazyImage from '../../Components/LazyImage';
-import { useBookmarks } from '../../Context/BookmarkContext';
-import { toast } from 'react-toastify';
 
 
 const BlogDetailsPage = () => {

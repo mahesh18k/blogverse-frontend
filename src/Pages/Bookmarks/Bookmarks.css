@@ -25,24 +25,23 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .bookmark-grid .col-xs-12 {
     margin-bottom: 2rem;
   }
-  
+
   .bookmark-item {
     margin: 0 auto;
   }
 }
 
-/* Empty state styling */
 .empty-bookmarks {
   animation: slideInUp 0.6s ease-out;
 }
@@ -52,6 +51,7 @@
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

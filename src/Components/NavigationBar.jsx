@@ -70,9 +70,9 @@ const NavigationBar = () => {
                   <BookmarkFill className="me-1" />
                   Bookmarks
                   {getBookmarksCount() > 0 && (
-                    <Badge 
-                      bg="primary" 
-                      pill 
+                    <Badge
+                      bg="primary"
+                      pill
                       className="position-absolute top-0 start-100 translate-middle"
                       style={{ fontSize: '0.7rem' }}
                     >

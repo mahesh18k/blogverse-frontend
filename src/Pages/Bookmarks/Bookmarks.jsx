@@ -9,13 +9,12 @@ import './Bookmarks.css';
 
 const Bookmarks = () => {
   const navigate = useNavigate();
+
   const {
     bookmarks,
     loading,
     clearAllBookmarks,
-    getBookmarksCount,
-    searchBookmarks,
-    sortBookmarks
+    getBookmarksCount
   } = useBookmarks();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,11 +23,36 @@ const Bookmarks = () => {
 
   // Filter and sort bookmarks
   const filteredAndSortedBookmarks = useMemo(() => {
-    const filtered = searchBookmarks(searchQuery);
-    return sortBookmarks(sortBy).filter(bookmark =>
-      searchQuery === '' || filtered.some(f => f._id === bookmark._id)
-    );
-  }, [searchQuery, sortBy, bookmarks, searchBookmarks, sortBookmarks]);
+    // Filter bookmarks by search query
+    let filtered = bookmarks;
+    if (searchQuery && searchQuery.trim() !== '') {
+      const lowercaseQuery = searchQuery.toLowerCase();
+      filtered = bookmarks.filter(bookmark =>
+        bookmark.title.toLowerCase().includes(lowercaseQuery) ||
+        bookmark.author?.first_name?.toLowerCase().includes(lowercaseQuery) ||
+        bookmark.author?.last_name?.toLowerCase().includes(lowercaseQuery) ||
+        bookmark.topic_tags?.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+      );
+    }
+
+    // Sort the filtered bookmarks
+    return [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case 'date':
+          return new Date(b.bookmarked_at) - new Date(a.bookmarked_at);
+        case 'title':
+          return a.title.localeCompare(b.title);
+        case 'author':
+          const authorA = `${a.author?.first_name || ''} ${a.author?.last_name || ''}`;
+          const authorB = `${b.author?.first_name || ''} ${b.author?.last_name || ''}`;
+          return authorA.localeCompare(authorB);
+        case 'upvotes':
+          return b.upvotes - a.upvotes;
+        default:
+          return new Date(b.bookmarked_at) - new Date(a.bookmarked_at);
+      }
+    });
+  }, [searchQuery, sortBy, bookmarks]);
 
   const handleBlogClick = (blogId) => {
     navigate(`/blog/${blogId}`);

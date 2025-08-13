@@ -14,6 +14,7 @@ export const useBookmarks = () => {
 export const BookmarkProvider = ({ children }) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Load bookmarks from localStorage on mount
   useEffect(() => {
@@ -27,28 +28,32 @@ export const BookmarkProvider = ({ children }) => {
       } catch (error) {
         console.error('Error loading bookmarks:', error);
         toast.error('Failed to load bookmarks');
+      } finally {
+        setIsInitialized(true);
       }
     };
 
     loadBookmarks();
   }, []);
 
-  // Save bookmarks to localStorage whenever bookmarks change
+  // Save bookmarks to localStorage whenever bookmarks change (but only after initial load)
   useEffect(() => {
+    if (!isInitialized) return; // Don't save until we've loaded from localStorage first
+    
     try {
       localStorage.setItem('blogverse_bookmarks', JSON.stringify(bookmarks));
     } catch (error) {
       console.error('Error saving bookmarks:', error);
       toast.error('Failed to save bookmarks');
     }
-  }, [bookmarks]);
+  }, [bookmarks, isInitialized]);
 
-  // Add bookmark
+    // Add bookmark
   const addBookmark = (blog) => {
     setLoading(true);
     try {
       const isAlreadyBookmarked = bookmarks.some(bookmark => bookmark._id === blog._id);
-
+      
       if (isAlreadyBookmarked) {
         toast.info('📚 Blog is already bookmarked!');
         setLoading(false);

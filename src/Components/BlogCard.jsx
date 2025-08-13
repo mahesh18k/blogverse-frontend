@@ -6,7 +6,13 @@ import LazyImage from './LazyImage';
 
 const BlogCard = ({ _id, title, author, date_uploaded, topic_tags, thumbnail, upvotes, downvotes, views, onClick }) => {
   const { isBookmarked, toggleBookmark, loading } = useBookmarks();
-
+  
+  // Ensure all required fields are present
+  if (!_id) {
+    console.warn('BlogCard: Missing _id prop', { _id, title });
+    return null;
+  }
+  
   const blogData = {
     _id, title, author, date_uploaded, topic_tags, thumbnail, upvotes, downvotes, views
   };

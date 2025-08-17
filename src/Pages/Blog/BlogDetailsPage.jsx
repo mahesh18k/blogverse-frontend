@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { BookmarkFill, Bookmark, Share } from 'react-bootstrap-icons';
 import { useParams } from 'react-router-dom';
+import { useBookmarks } from '../../Context/BookmarkContext';
+import { toast } from 'react-toastify';
 import DOMPurify from 'dompurify';
 import axios from 'axios';
 import NavigationBar from '../../Components/NavigationBar';
 import LazyImage from '../../Components/LazyImage';
-import { toast } from 'react-toastify';
 
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { isBookmarked, toggleBookmark, loading: bookmarkLoading } = useBookmarks();
 
 
   useEffect(() => {
@@ -51,6 +54,40 @@ const BlogDetailsPage = () => {
     } catch (error) {
       console.error('Error downvoting blog:', error);
       toast.error('❌ Unable to downvote. Please try again later.');
+    }
+  };
+
+  const handleBookmarkToggle = () => {
+    if (blog) {
+      toggleBookmark(blog);
+    }
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: blog?.title || 'Check out this blog!',
+      text: `Read "${blog?.title}" on BlogVerse`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+        toast.success('📤 Blog shared successfully!');
+      } else {
+        // Fallback: Copy link to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success('🔗 Blog link copied to clipboard!');
+      }
+    } catch (error) {
+      console.error('Error sharing blog:', error);
+      // Fallback: Copy link to clipboard
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success('🔗 Blog link copied to clipboard!');
+      } catch (clipboardError) {
+        toast.error('❌ Unable to share blog. Please try again.');
+      }
     }
   };
 
@@ -124,14 +161,31 @@ const BlogDetailsPage = () => {
         </div>
 
         <Row className="my-4">
-          <Col>
-            <Button variant="success" onClick={handleUpvote}>
+          <Col xs={6} md={3}>
+            <Button variant="success" onClick={handleUpvote} className="w-100">
               <FontAwesomeIcon icon={faArrowUp} /> Upvote
             </Button>
           </Col>
-          <Col>
-            <Button variant="danger" onClick={handleDownvote}>
+          <Col xs={6} md={3}>
+            <Button variant="danger" onClick={handleDownvote} className="w-100">
               <FontAwesomeIcon icon={faArrowDown} /> Downvote
+            </Button>
+          </Col>
+          <Col xs={6} md={3}>
+            <Button
+              variant={isBookmarked(id) ? "primary" : "outline-primary"}
+              onClick={handleBookmarkToggle}
+              disabled={bookmarkLoading}
+              className="w-100"
+            >
+              {isBookmarked(id) ? <BookmarkFill /> : <Bookmark />}
+              {' '}
+              {isBookmarked(id) ? 'Bookmarked' : 'Bookmark'}
+            </Button>
+          </Col>
+          <Col xs={6} md={3}>
+            <Button variant="outline-secondary" onClick={handleShare} className="w-100">
+              <Share /> Share
             </Button>
           </Col>
         </Row>
